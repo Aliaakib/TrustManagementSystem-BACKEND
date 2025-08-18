@@ -41,10 +41,10 @@
 //   console.log("Server running on http://localhost:5000");
 // });
 
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import cors from "cors";
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const cors = require("cors");
 
 // Load .env
 dotenv.config();
@@ -54,16 +54,31 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-import authRoutes from "./routes/auth.js";
-import trustRoutes from "./routes/trust.js";
-import dashboardRoutes from "./routes/dashboardRoutes.js";
-import donationRoutes from "./routes/donationRoutes.js";
-import memberRoutes from "./routes/memberRoutes.js";
-import trusteeRoutes from "./routes/trusteeRoutes.js";
-import expenseRoutes from "./routes/expenseRoutes.js";
-import noteRoutes from "./routes/noteRoutes.js";
-import documentRoutes from "./routes/documentRoutes.js";
-import setFeeRoutes from "./routes/setFeeRoutes.js";
+const authRoutes = require("./routes/auth");
+const trustRoutes = require("./routes/trust");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+const donationRoutes = require("./routes/donationRoutes");
+const memberRoutes = require("./routes/memberRoutes");
+const trusteeRoutes = require("./routes/trusteeRoutes");
+const expenseRoutes = require("./routes/expenseRoutes");
+const noteRoutes = require("./routes/noteRoutes");
+const documentRoutes = require("./routes/documentRoutes");
+const setFeeRoutes = require("./routes/setFeeRoutes");
+
+dotenv.config();
+
+// ✅ CORS setup
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // Local dev
+      "https://trust-track.vercel.app", // Vercel frontend
+    ],
+    credentials: true,
+  })
+);
+
+app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/trust", trustRoutes);
