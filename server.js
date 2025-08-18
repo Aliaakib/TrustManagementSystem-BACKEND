@@ -71,8 +71,8 @@ dotenv.config();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", // Local dev
-      "https://trust-track.vercel.app", // Vercel frontend
+      "http://localhost:5173",
+      "https://trust-track.vercel.app", // ✅ no trailing slash
     ],
     credentials: true,
   })
