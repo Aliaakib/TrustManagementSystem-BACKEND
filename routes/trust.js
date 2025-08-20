@@ -1,3 +1,5 @@
+//
+
 // routes/trustRoutes.js
 const express = require("express");
 const multer = require("multer");
@@ -9,12 +11,17 @@ const {
 
 const router = express.Router();
 
+// Multer setup for file uploads (in-memory)
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
+// Create a new trust (with optional logo upload)
 router.post("/", upload.single("logo"), createTrust);
+
+// Get trust details by userId
 router.get("/by-user/:userId", getTrustByUser);
-router.put("/:trustId", upload.single("logo"), updateTrust); // ✅ new route
-router.put("/:id", upload.single("logo"), updateTrust);
+
+// Update trust details by trustId (with optional logo upload)
+router.put("/:trustId", upload.single("logo"), updateTrust);
 
 module.exports = router;
