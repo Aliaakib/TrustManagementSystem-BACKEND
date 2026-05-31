@@ -22,7 +22,19 @@ exports.getDashboardStats = async (req, res) => {
 
     const totalMembers = members.length;
     const totalTrustees = trustees.length;
-    const feesPaid = members.filter((m) => m.feesPaid).length;
+    const currentYear = new Date().getFullYear().toString();
+    const currentMonth = new Date()
+      .toLocaleString("en-US", { month: "short" })
+      .toUpperCase();
+
+    const feesPaid = members.filter((member) => {
+      const paidMonths = member.feesPaidData?.get
+        ? member.feesPaidData.get(currentYear) || []
+        : member.feesPaidData?.[currentYear] || [];
+
+      return paidMonths.includes(currentMonth);
+    }).length;
+
     const feesNotPaid = totalMembers - feesPaid;
 
     const feeAmount = setting?.feeAmount || 500; // ✅ FIXED
