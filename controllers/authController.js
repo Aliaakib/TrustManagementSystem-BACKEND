@@ -34,13 +34,13 @@ exports.register = async (req, res) => {
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
-    console.error("REGISTER ERROR:", err);
+  console.error("REGISTER ERROR FULL:", err);
 
-    res.status(500).json({
-      message: err.message,
-      error: err,
-    });
-  }
+  return res.status(500).json({
+    message: err.message,
+    name: err.name,
+  });
+}
 };
 
 exports.login = async (req, res) => {
