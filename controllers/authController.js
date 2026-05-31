@@ -2,22 +2,63 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+// exports.register = async (req, res) => {
+//   try {
+//     const { name, email, phone, address, password, role } = req.body;
+
+//     if (!name || !email || !password || !role) {
+//       return res
+//         .status(400)
+//         .json({ message: "Please fill all required fields" });
+//     }
+
+//     const existingUser = await User.findOne({ email });
+//     if (existingUser) {
+//       return res.status(409).json({ message: "User already exists" });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     const newUser = new User({
+//       name,
+//       email,
+//       phone,
+//       address,
+//       password: hashedPassword,
+//       role,
+//     });
+
+//     await newUser.save();
+
+//     // ✅ Trust is NOT created here
+
+//     res.status(201).json({ message: "User registered successfully" });
+//   } catch (err) {
+//   console.error("REGISTER ERROR FULL:", err);
+
+//   return res.status(500).json({
+//     message: err.message,
+//     name: err.name,
+//   });
+// }
+// };
+
 exports.register = async (req, res) => {
+  console.log("REGISTER HIT");
+  console.log("BODY:", req.body);
+
   try {
     const { name, email, phone, address, password, role } = req.body;
 
-    if (!name || !email || !password || !role) {
-      return res
-        .status(400)
-        .json({ message: "Please fill all required fields" });
-    }
+    console.log("CHECKING USER");
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({ message: "User already exists" });
-    }
+
+    console.log("EXISTING USER:", existingUser);
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    console.log("PASSWORD HASHED");
 
     const newUser = new User({
       name,
@@ -28,19 +69,22 @@ exports.register = async (req, res) => {
       role,
     });
 
+    console.log("BEFORE SAVE");
+
     await newUser.save();
 
-    // ✅ Trust is NOT created here
+    console.log("AFTER SAVE");
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({
+      message: "User registered successfully",
+    });
   } catch (err) {
-  console.error("REGISTER ERROR FULL:", err);
+    console.error("REGISTER ERROR FULL:", err);
 
-  return res.status(500).json({
-    message: err.message,
-    name: err.name,
-  });
-}
+    res.status(500).json({
+      message: err.message,
+    });
+  }
 };
 
 exports.login = async (req, res) => {
