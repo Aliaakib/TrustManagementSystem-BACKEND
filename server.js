@@ -85,7 +85,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173", // local frontend
-      "https://tmsapp.vercel.app/", // vercel deployed frontend
+      "https://tmsapp.vercel.app", // vercel deployed frontend
     ],
     credentials: true,
   })
